@@ -4,7 +4,7 @@ import org.example.serialize.impl.JSONSerializer;
 
 public interface Serializer {
 
-    public static final Serializer JSON = new JSONSerializer();
+    Serializer DEFAULT = new JSONSerializer();
 
     byte getSerializerAlgorithm();
 
