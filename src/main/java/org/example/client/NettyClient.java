@@ -1,4 +1,4 @@
-package org.example;
+package org.example.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -7,6 +7,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
+import org.example.client.handler.FirstClientHandler;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -42,6 +43,7 @@ public class NettyClient {
                 .handler(new ChannelInitializer<Channel>() {
                     @Override
                     protected void initChannel(Channel ch) {
+                        ch.pipeline().addLast(new FirstClientHandler());
                     }
                 });
         connect(clientBootstrap, "127.0.0.1", 8000, MAX_RETRY);

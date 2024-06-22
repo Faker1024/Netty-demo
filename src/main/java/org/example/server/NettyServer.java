@@ -1,4 +1,4 @@
-package org.example;
+package org.example.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelHandlerContext;
@@ -9,6 +9,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
+import org.example.server.handler.FirstServerHandler;
 
 public class NettyServer {
 
@@ -47,6 +48,7 @@ public class NettyServer {
                 })
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel ch) {
+                        ch.pipeline().addLast(new FirstServerHandler());
                     }
                 });
         bind(serverBootstrap, PORT);
