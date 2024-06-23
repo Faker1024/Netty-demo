@@ -1,4 +1,4 @@
-package org.example.protocol.command;
+package org.example.protocol;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;

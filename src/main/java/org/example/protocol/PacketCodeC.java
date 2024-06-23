@@ -1,8 +1,10 @@
-package org.example.protocol.command;
+package org.example.protocol;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import lombok.Data;
+import org.example.protocol.request.LoginRequestPacket;
+import org.example.protocol.response.LoginResponsePacket;
 import org.example.serialize.Serializer;
 import org.example.serialize.impl.JSONSerializer;
 
@@ -10,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.example.protocol.command.Command.LOGIN_REQUEST;
+import static org.example.protocol.command.Command.LOGIN_RESPONSE;
 
 @Data
 public class PacketCodeC {
@@ -17,11 +20,15 @@ public class PacketCodeC {
     private static final int MAGIC_NUMBER = 0x1234;
     private static final Map<Byte, Class<? extends Packet>> packetTypeMap;
     private static final Map<Byte, Serializer> serializerMap;
+    public static final PacketCodeC INSTANCE;
+
+    private PacketCodeC(){}
 
     static {
         packetTypeMap = new HashMap<>();
         packetTypeMap.put(LOGIN_REQUEST, LoginRequestPacket.class);
-
+        packetTypeMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
+        INSTANCE = new PacketCodeC();
         serializerMap = new HashMap<>();
         JSONSerializer jsonSerializer = new JSONSerializer();
         serializerMap.put(jsonSerializer.getSerializerAlgorithm(), jsonSerializer);
@@ -63,8 +70,8 @@ public class PacketCodeC {
         return null;
     }
 
-    public ByteBuf encode(Packet packet) {
-        ByteBuf byteBuf = ByteBufAllocator.DEFAULT.ioBuffer();
+    public ByteBuf encode(ByteBufAllocator alloc, Packet packet) {
+        ByteBuf byteBuf = alloc.ioBuffer();
         byte[] bytes = Serializer.DEFAULT.serialize(packet);
         return byteBuf.writeInt(MAGIC_NUMBER)
                 .writeByte(packet.getVersion())
