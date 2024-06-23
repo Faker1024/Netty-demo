@@ -14,8 +14,7 @@ public class LoginReceiveResponseActuator implements Actuator {
 
     @Override
     public void execute(ChannelHandlerContext ctx, Packet... packets) {
-        Packet packet = packets[0];
-        if (packet instanceof LoginResponsePacket loginResponsePacket) {
+        if (packets[0] instanceof LoginResponsePacket loginResponsePacket) {
             if (loginResponsePacket.isSuccess()) {
                 System.out.println(new Date() + ": 客户端登陆成功");
                 LoginUtil.markAsLogin(ctx.channel());

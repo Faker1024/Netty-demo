@@ -4,15 +4,16 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import lombok.Data;
 import org.example.protocol.request.LoginRequestPacket;
+import org.example.protocol.request.MessageRequestPacket;
 import org.example.protocol.response.LoginResponsePacket;
+import org.example.protocol.response.MessageResponsePacket;
 import org.example.serialize.Serializer;
 import org.example.serialize.impl.JSONSerializer;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.example.protocol.command.Command.LOGIN_REQUEST;
-import static org.example.protocol.command.Command.LOGIN_RESPONSE;
+import static org.example.protocol.command.Command.*;
 
 @Data
 public class PacketCodeC {
@@ -28,6 +29,8 @@ public class PacketCodeC {
         packetTypeMap = new HashMap<>();
         packetTypeMap.put(LOGIN_REQUEST, LoginRequestPacket.class);
         packetTypeMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
+        packetTypeMap.put(MESSAGE_REQUEST, MessageRequestPacket.class);
+        packetTypeMap.put(MESSAGE_RESPONSE, MessageResponsePacket.class);
         INSTANCE = new PacketCodeC();
         serializerMap = new HashMap<>();
         JSONSerializer jsonSerializer = new JSONSerializer();

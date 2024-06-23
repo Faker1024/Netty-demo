@@ -2,12 +2,15 @@ package org.example.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
+import org.example.actuator.ActuatorEnum;
 import org.example.client.handler.ClientHandler;
+import org.example.util.LoginUtil;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -15,11 +18,21 @@ import java.util.concurrent.TimeUnit;
 public class NettyClient {
 
     private static final int MAX_RETRY = 5;
+    private static void startConsoleThread(Channel channel) {
+        new Thread(() -> {
+            while (!Thread.interrupted()){
+                if (LoginUtil.hasLogin(channel)){
+                    ActuatorEnum.CLIENT_MESSAGE_REQUEST.getActuator().execute(channel.pipeline().lastContext());
+                }
+            }
+        }).start();
+    }
 
     private static void connect(Bootstrap bootstrap, String host, int port, int retry) {
         bootstrap.connect(host, port).addListener(future -> {
             if (future.isSuccess()) {
                 System.out.println("连接成功");
+                startConsoleThread(((ChannelFuture)future).channel());
             } else if (retry == 0) {
                 System.out.println("已无重试次数， 连接失败");
             } else {
@@ -30,6 +43,7 @@ public class NettyClient {
             }
         });
     }
+
 
     public static void main(String[] args) {
         Bootstrap clientBootstrap = new Bootstrap();
