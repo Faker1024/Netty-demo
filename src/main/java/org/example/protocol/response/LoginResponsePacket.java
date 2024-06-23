@@ -16,6 +16,10 @@ public class LoginResponsePacket extends Packet {
 
     private String reason;
 
+    {
+        super.actuatorFlag = 3;
+    }
+
     @Override
     public Byte getCommand() {
         return LOGIN_RESPONSE;

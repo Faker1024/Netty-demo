@@ -9,6 +9,8 @@ public abstract class Packet {
     @JSONField(deserialize = false, serialize = false)
     private Byte version = 1;
 
+    protected Byte actuatorFlag;
+
     @JSONField(serialize = false)
     public abstract Byte getCommand();
 

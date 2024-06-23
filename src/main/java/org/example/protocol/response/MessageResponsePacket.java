@@ -14,6 +14,10 @@ public class MessageResponsePacket extends Packet {
 
     private String message;
 
+    {
+        super.actuatorFlag = 6;
+    }
+
     @Override
     public Byte getCommand() {
         return MESSAGE_RESPONSE;
