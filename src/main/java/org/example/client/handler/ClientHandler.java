@@ -1,15 +1,13 @@
 package org.example.client.handler;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
 import org.example.actuator.ActuatorEnum;
 import org.example.protocol.Packet;
-import org.example.protocol.PacketCodeC;
 import org.example.util.LoginUtil;
 
-public class ClientHandler extends ChannelInboundHandlerAdapter {
+public class ClientHandler extends SimpleChannelInboundHandler<Packet> {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -21,10 +19,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf responseByteBuf = (ByteBuf) msg;
-        Packet packet = PacketCodeC.INSTANCE.decode(responseByteBuf);
-        responseByteBuf.release();
+    protected void channelRead0(ChannelHandlerContext ctx, Packet packet) throws Exception {
         ActuatorEnum.getActuatorByFlag(packet.getActuatorFlag()).execute(ctx, packet);
     }
 }

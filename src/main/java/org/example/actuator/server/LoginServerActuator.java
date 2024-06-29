@@ -3,7 +3,6 @@ package org.example.actuator.server;
 import io.netty.channel.ChannelHandlerContext;
 import org.example.actuator.Actuator;
 import org.example.protocol.Packet;
-import org.example.protocol.PacketCodeC;
 import org.example.protocol.request.LoginRequestPacket;
 import org.example.protocol.response.LoginResponsePacket;
 
@@ -28,7 +27,7 @@ public class LoginServerActuator implements Actuator {
                         .reason("账号密码校验失败").build();
             }
         }
-        ctx.channel().writeAndFlush(PacketCodeC.INSTANCE.encode(ctx.alloc(), loginResponsePacket));
+        ctx.channel().writeAndFlush(loginResponsePacket);
     }
 
     private boolean valid(LoginRequestPacket loginRequestPacket) {

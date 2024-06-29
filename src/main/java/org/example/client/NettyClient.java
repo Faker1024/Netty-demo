@@ -10,6 +10,9 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
 import org.example.actuator.ActuatorEnum;
 import org.example.client.handler.ClientHandler;
+import org.example.codec.PacketDecoder;
+import org.example.codec.PacketEncoder;
+import org.example.codec.Spliter;
 import org.example.util.LoginUtil;
 
 import java.util.Date;
@@ -57,7 +60,10 @@ public class NettyClient {
                 .handler(new ChannelInitializer<Channel>() {
                     @Override
                     protected void initChannel(Channel ch) {
-                        ch.pipeline().addLast(new ClientHandler());
+                        ch.pipeline().addLast(new Spliter())
+                                .addLast(new PacketDecoder())
+                                .addLast(new ClientHandler())
+                                .addLast(new PacketEncoder());
                     }
                 });
         connect(clientBootstrap, "127.0.0.1", 8000, MAX_RETRY);

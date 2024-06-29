@@ -1,10 +1,8 @@
 package org.example.actuator.client.send;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import org.example.actuator.Actuator;
 import org.example.protocol.Packet;
-import org.example.protocol.PacketCodeC;
 import org.example.protocol.request.LoginRequestPacket;
 
 import java.util.Date;
@@ -21,7 +19,6 @@ public class LoginSendRequestActuator implements Actuator {
                 .userId(UUID.randomUUID().toString())
                 .username("test")
                 .password("123").build();
-        ByteBuf requestBuffer = PacketCodeC.INSTANCE.encode(ctx.alloc(), request);
-        ctx.channel().writeAndFlush(requestBuffer);
+        ctx.channel().writeAndFlush(request);
     }
 }

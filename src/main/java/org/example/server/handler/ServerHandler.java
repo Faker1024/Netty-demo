@@ -1,22 +1,16 @@
 package org.example.server.handler;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
 import org.example.actuator.Actuator;
 import org.example.actuator.ActuatorEnum;
 import org.example.protocol.Packet;
-import org.example.protocol.PacketCodeC;
 
-public class ServerHandler extends ChannelInboundHandlerAdapter {
-
+public class ServerHandler extends SimpleChannelInboundHandler<Packet> {
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf requestByteBuf = (ByteBuf) msg;
-        Packet packet = PacketCodeC.INSTANCE.decode(requestByteBuf);
-        requestByteBuf.release();
-        Actuator actuator = ActuatorEnum.getActuatorByFlag((byte) (packet.getActuatorFlag()+1));
-        actuator.execute(ctx, packet);
+    protected void channelRead0(ChannelHandlerContext ctx, Packet msg) throws Exception {
+        Actuator actuator = ActuatorEnum.getActuatorByFlag((byte) (msg.getActuatorFlag()+1));
+        actuator.execute(ctx, msg);
     }
 }

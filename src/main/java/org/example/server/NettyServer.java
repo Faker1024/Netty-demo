@@ -9,6 +9,9 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
+import org.example.codec.PacketDecoder;
+import org.example.codec.PacketEncoder;
+import org.example.codec.Spliter;
 import org.example.server.handler.ServerHandler;
 
 public class NettyServer {
@@ -28,7 +31,6 @@ public class NettyServer {
 
     public static void main(String[] args) {
         ServerBootstrap serverBootstrap = new ServerBootstrap();
-
         NioEventLoopGroup bossGroup = new NioEventLoopGroup();
         NioEventLoopGroup workerGroup = new NioEventLoopGroup();
         serverBootstrap
@@ -48,7 +50,11 @@ public class NettyServer {
                 })
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel ch) {
-                        ch.pipeline().addLast(new ServerHandler());
+                        ch.pipeline().addLast(new Spliter())
+                                .addLast(new PacketDecoder())
+//                                .addLast(new AuthHandler())
+                                .addLast(new ServerHandler())
+                                .addLast(new PacketEncoder());
                     }
                 });
         bind(serverBootstrap, PORT);
