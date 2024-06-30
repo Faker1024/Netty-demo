@@ -12,9 +12,7 @@ import io.netty.util.AttributeKey;
 import org.example.codec.PacketDecoder;
 import org.example.codec.PacketEncoder;
 import org.example.codec.Spliter;
-import org.example.server.handler.AuthHandler;
-import org.example.server.handler.LoginRequestHandler;
-import org.example.server.handler.MessageRequestHandler;
+import org.example.server.handler.*;
 
 public class NettyServer {
 
@@ -57,7 +55,8 @@ public class NettyServer {
                                 .addLast(new LoginRequestHandler())
                                 .addLast(new AuthHandler())
                                 .addLast(new MessageRequestHandler())
-//                                .addLast(new ServerHandler())
+                                .addLast(new CreateGroupRequestHandler())
+                                .addLast(new LogoutRequestHandler())
                                 .addLast(new PacketEncoder());
                     }
                 });

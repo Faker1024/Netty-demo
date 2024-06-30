@@ -8,13 +8,13 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
+import org.example.client.console.ConsoleManager;
+import org.example.client.console.LoginConsoleCommand;
 import org.example.client.handler.LoginResponseHandler;
 import org.example.client.handler.MessageResponseHandler;
 import org.example.codec.PacketDecoder;
 import org.example.codec.PacketEncoder;
 import org.example.codec.Spliter;
-import org.example.protocol.request.LoginRequestPacket;
-import org.example.protocol.request.MessageRequestPacket;
 import org.example.util.SessionUtil;
 
 import java.util.Date;
@@ -26,29 +26,18 @@ public class NettyClient {
     private static final int MAX_RETRY = 5;
     private static void startConsoleThread(Channel channel) {
         Scanner sc = new Scanner(System.in);
+        ConsoleManager consoleManager = new ConsoleManager();
         new Thread(() -> {
             while (!Thread.interrupted()){
                 if (!SessionUtil.hasLogin(channel)) {
-                    System.out.println("请输入用户名登录:");
-                    String username = sc.nextLine();
-                    LoginRequestPacket request = LoginRequestPacket.builder().username(username).password("pwd").build();
-                    channel.writeAndFlush(request);
-                    waitForLoginResponse();
+                    new LoginConsoleCommand().exec(sc, channel);
                 }else{
-                    String toUserId = sc.nextLine();
-                    String message = sc.nextLine();
-                    channel.writeAndFlush(new MessageRequestPacket(toUserId, message));
+                    consoleManager.exec(sc, channel);
                 }
             }
         }).start();
     }
 
-    private static void waitForLoginResponse() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ignored) {
-        }
-    }
 
     private static void connect(Bootstrap bootstrap, String host, int port, int retry) {
         bootstrap.connect(host, port).addListener(future -> {

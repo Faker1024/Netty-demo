@@ -4,23 +4,16 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.example.protocol.Packet;
 
-import static org.example.protocol.command.Command.LOGIN_REQUEST;
+import static org.example.protocol.command.Command.LOGOUT_REQUEST;
 
 @Data
 @Builder
 @Accessors(chain = true)
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class LoginRequestPacket extends Packet {
-    private String userId;
-
-    private String username;
-
-    private String password;
-
+public class LogoutRequestPacket extends Packet {
     @Override
     public Byte getCommand() {
-        return LOGIN_REQUEST;
+        return LOGOUT_REQUEST;
     }
 }

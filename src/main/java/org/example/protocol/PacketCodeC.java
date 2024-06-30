@@ -2,9 +2,13 @@ package org.example.protocol;
 
 import io.netty.buffer.ByteBuf;
 import lombok.Data;
+import org.example.protocol.request.CreateGroupRequestPacket;
 import org.example.protocol.request.LoginRequestPacket;
+import org.example.protocol.request.LogoutRequestPacket;
 import org.example.protocol.request.MessageRequestPacket;
+import org.example.protocol.response.CreateGroupResponsePacket;
 import org.example.protocol.response.LoginResponsePacket;
+import org.example.protocol.response.LogoutResponsePacket;
 import org.example.protocol.response.MessageResponsePacket;
 import org.example.serialize.Serializer;
 import org.example.serialize.impl.JSONSerializer;
@@ -30,6 +34,10 @@ public class PacketCodeC {
         packetTypeMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
         packetTypeMap.put(MESSAGE_REQUEST, MessageRequestPacket.class);
         packetTypeMap.put(MESSAGE_RESPONSE, MessageResponsePacket.class);
+        packetTypeMap.put(LOGOUT_REQUEST, LogoutRequestPacket.class);
+        packetTypeMap.put(LOGOUT_RESPONSE, LogoutResponsePacket.class);
+        packetTypeMap.put(CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
+        packetTypeMap.put(CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
         INSTANCE = new PacketCodeC();
         serializerMap = new HashMap<>();
         JSONSerializer jsonSerializer = new JSONSerializer();

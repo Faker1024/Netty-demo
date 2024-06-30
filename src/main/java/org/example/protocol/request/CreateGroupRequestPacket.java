@@ -4,7 +4,9 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.example.protocol.Packet;
 
-import static org.example.protocol.command.Command.LOGIN_REQUEST;
+import java.util.List;
+
+import static org.example.protocol.command.Command.CREATE_GROUP_REQUEST;
 
 @Data
 @Builder
@@ -12,15 +14,12 @@ import static org.example.protocol.command.Command.LOGIN_REQUEST;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class LoginRequestPacket extends Packet {
-    private String userId;
+public class CreateGroupRequestPacket extends Packet {
 
-    private String username;
-
-    private String password;
+    private List<String> userIdList;
 
     @Override
     public Byte getCommand() {
-        return LOGIN_REQUEST;
+        return CREATE_GROUP_REQUEST;
     }
 }

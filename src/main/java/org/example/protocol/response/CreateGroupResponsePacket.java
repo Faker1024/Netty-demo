@@ -4,7 +4,9 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.example.protocol.Packet;
 
-import static org.example.protocol.command.Command.LOGIN_RESPONSE;
+import java.util.List;
+
+import static org.example.protocol.command.Command.CREATE_GROUP_RESPONSE;
 
 @Data
 @Builder
@@ -12,19 +14,16 @@ import static org.example.protocol.command.Command.LOGIN_RESPONSE;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class LoginResponsePacket extends Packet {
-
-    private String userId;
-
-    private String username;
+public class CreateGroupResponsePacket extends Packet {
 
     private boolean success;
 
-    private String reason;
+    private String groupId;
 
+    private List<String> userNameList;
 
     @Override
     public Byte getCommand() {
-        return LOGIN_RESPONSE;
+        return CREATE_GROUP_RESPONSE;
     }
 }
