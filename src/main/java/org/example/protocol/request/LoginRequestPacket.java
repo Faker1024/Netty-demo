@@ -17,10 +17,6 @@ public class LoginRequestPacket extends Packet {
 
     private String password;
 
-    {
-        super.actuatorFlag = 1;
-    }
-
     @Override
     public Byte getCommand() {
         return LOGIN_REQUEST;

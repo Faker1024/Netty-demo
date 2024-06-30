@@ -3,12 +3,13 @@ package org.example.server.handler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.example.util.LoginUtil;
+import org.example.util.SessionUtil;
 
 public class AuthHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        if (LoginUtil.hasLogin(ctx.channel())) {
+        if (SessionUtil.hasLogin(ctx.channel())) {
             ctx.pipeline().remove(this);
             super.channelRead(ctx, msg);
         }

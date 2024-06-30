@@ -12,7 +12,9 @@ import io.netty.util.AttributeKey;
 import org.example.codec.PacketDecoder;
 import org.example.codec.PacketEncoder;
 import org.example.codec.Spliter;
-import org.example.server.handler.ServerHandler;
+import org.example.server.handler.AuthHandler;
+import org.example.server.handler.LoginRequestHandler;
+import org.example.server.handler.MessageRequestHandler;
 
 public class NettyServer {
 
@@ -52,8 +54,10 @@ public class NettyServer {
                     protected void initChannel(NioSocketChannel ch) {
                         ch.pipeline().addLast(new Spliter())
                                 .addLast(new PacketDecoder())
-//                                .addLast(new AuthHandler())
-                                .addLast(new ServerHandler())
+                                .addLast(new LoginRequestHandler())
+                                .addLast(new AuthHandler())
+                                .addLast(new MessageRequestHandler())
+//                                .addLast(new ServerHandler())
                                 .addLast(new PacketEncoder());
                     }
                 });

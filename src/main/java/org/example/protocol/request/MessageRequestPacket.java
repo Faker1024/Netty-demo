@@ -1,21 +1,26 @@
 package org.example.protocol.request;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.example.protocol.Packet;
 
 import static org.example.protocol.command.Command.MESSAGE_REQUEST;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class MessageRequestPacket extends Packet {
 
+    private String toId;
+
+    private String type;
+
     private String message;
 
-    {
-        super.actuatorFlag = 4;
+    public MessageRequestPacket(String toId, String message) {
+        this.toId = toId;
+        this.message = message;
     }
 
     @Override

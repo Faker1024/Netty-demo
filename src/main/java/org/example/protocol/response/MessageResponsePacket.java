@@ -12,11 +12,11 @@ import static org.example.protocol.command.Command.MESSAGE_RESPONSE;
 @EqualsAndHashCode(callSuper = true)
 public class MessageResponsePacket extends Packet {
 
-    private String message;
+    private String formUserId;
 
-    {
-        super.actuatorFlag = 6;
-    }
+    private String fromUserName;
+
+    private String message;
 
     @Override
     public Byte getCommand() {

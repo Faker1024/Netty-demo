@@ -17,18 +17,18 @@ public class SessionUtil {
         channel.attr(Attributes.SESSION).set(session);
     }
 
-    public static void unbindSession(Channel channel) {
+    public static void unbBindSession(Channel channel) {
         if (hasLogin(channel)){
             userIdChannelMap.remove(Objects.requireNonNull(getSession(channel)).getUserId());
             channel.attr(Attributes.SESSION).set(null);
         }
     }
 
-    private static Session getSession(Channel channel) {
+    public static Session getSession(Channel channel) {
         return channel.attr(Attributes.SESSION).get();
     }
 
-    private static boolean hasLogin(Channel channel) {
+    public static boolean hasLogin(Channel channel) {
         return channel.hasAttr(Attributes.SESSION);
     }
 

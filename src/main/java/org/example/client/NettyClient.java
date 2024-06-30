@@ -8,27 +8,46 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
-import org.example.actuator.ActuatorEnum;
-import org.example.client.handler.ClientHandler;
+import org.example.client.handler.LoginResponseHandler;
+import org.example.client.handler.MessageResponseHandler;
 import org.example.codec.PacketDecoder;
 import org.example.codec.PacketEncoder;
 import org.example.codec.Spliter;
-import org.example.util.LoginUtil;
+import org.example.protocol.request.LoginRequestPacket;
+import org.example.protocol.request.MessageRequestPacket;
+import org.example.util.SessionUtil;
 
 import java.util.Date;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class NettyClient {
 
     private static final int MAX_RETRY = 5;
     private static void startConsoleThread(Channel channel) {
+        Scanner sc = new Scanner(System.in);
         new Thread(() -> {
             while (!Thread.interrupted()){
-                if (LoginUtil.hasLogin(channel)){
-                    ActuatorEnum.CLIENT_MESSAGE_REQUEST.getActuator().execute(channel.pipeline().lastContext());
+                if (!SessionUtil.hasLogin(channel)) {
+                    System.out.println("请输入用户名登录:");
+                    String username = sc.nextLine();
+                    LoginRequestPacket request = LoginRequestPacket.builder().username(username).password("pwd").build();
+                    channel.writeAndFlush(request);
+                    waitForLoginResponse();
+                }else{
+                    String toUserId = sc.nextLine();
+                    String message = sc.nextLine();
+                    channel.writeAndFlush(new MessageRequestPacket(toUserId, message));
                 }
             }
         }).start();
+    }
+
+    private static void waitForLoginResponse() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ignored) {
+        }
     }
 
     private static void connect(Bootstrap bootstrap, String host, int port, int retry) {
@@ -62,7 +81,9 @@ public class NettyClient {
                     protected void initChannel(Channel ch) {
                         ch.pipeline().addLast(new Spliter())
                                 .addLast(new PacketDecoder())
-                                .addLast(new ClientHandler())
+                                .addLast(new LoginResponseHandler())
+                                .addLast(new MessageResponseHandler())
+//                                .addLast(new ClientHandler())
                                 .addLast(new PacketEncoder());
                     }
                 });
