@@ -10,8 +10,8 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
 import org.example.client.console.ConsoleManager;
 import org.example.client.console.LoginConsoleCommand;
-import org.example.client.handler.LoginResponseHandler;
-import org.example.client.handler.MessageResponseHandler;
+import org.example.client.console.SendToUserConsoleCommand;
+import org.example.client.handler.*;
 import org.example.codec.PacketDecoder;
 import org.example.codec.PacketEncoder;
 import org.example.codec.Spliter;
@@ -72,6 +72,10 @@ public class NettyClient {
                                 .addLast(new PacketDecoder())
                                 .addLast(new LoginResponseHandler())
                                 .addLast(new MessageResponseHandler())
+                                .addLast(new JoinGroupResponseHandler())
+                                .addLast(new ListGroupMembersResponseHandler())
+                                .addLast(new QuitGroupResponseHandler())
+                                .addLast(new CreateGroupResponseHandler())
 //                                .addLast(new ClientHandler())
                                 .addLast(new PacketEncoder());
                     }

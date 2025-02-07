@@ -26,8 +26,10 @@ public class CreateGroupRequestHandler extends SimpleChannelInboundHandler<Creat
                 userNameList.add(SessionUtil.getSession(channel).getUserName());
             }
         }
+        String groupId = IDUtil.randomId();
+        SessionUtil.bindChannelGroup(groupId, channelGroup);
         CreateGroupResponsePacket response = CreateGroupResponsePacket.builder()
-                .success(true).groupId(IDUtil.randomId())
+                .success(true).groupId(groupId)
                 .userNameList(userNameList).build();
         channelGroup.writeAndFlush(response);
         System.out.print("群创建成功，id为[" + response.getGroupId() + "],");
