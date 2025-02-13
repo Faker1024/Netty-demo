@@ -21,7 +21,7 @@ public class MessageRequestPacket extends Packet {
     private String message;
 
     public MessageRequestPacket(String toId, String message) {
-        this(toId, message,"user");
+        this(toId, "user", message);
     }
 
     public MessageRequestPacket(String toId, String type, String message) {
