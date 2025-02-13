@@ -2,14 +2,8 @@ package org.example.protocol;
 
 import io.netty.buffer.ByteBuf;
 import lombok.Data;
-import org.example.protocol.request.CreateGroupRequestPacket;
-import org.example.protocol.request.LoginRequestPacket;
-import org.example.protocol.request.LogoutRequestPacket;
-import org.example.protocol.request.MessageRequestPacket;
-import org.example.protocol.response.CreateGroupResponsePacket;
-import org.example.protocol.response.LoginResponsePacket;
-import org.example.protocol.response.LogoutResponsePacket;
-import org.example.protocol.response.MessageResponsePacket;
+import org.example.protocol.request.*;
+import org.example.protocol.response.*;
 import org.example.serialize.Serializer;
 import org.example.serialize.impl.JSONSerializer;
 
@@ -26,7 +20,8 @@ public class PacketCodeC {
     private static final Map<Byte, Serializer> serializerMap;
     public static final PacketCodeC INSTANCE;
 
-    private PacketCodeC(){}
+    private PacketCodeC() {
+    }
 
     static {
         packetTypeMap = new HashMap<>();
@@ -38,6 +33,8 @@ public class PacketCodeC {
         packetTypeMap.put(LOGOUT_RESPONSE, LogoutResponsePacket.class);
         packetTypeMap.put(CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
         packetTypeMap.put(CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
+        packetTypeMap.put(LIST_GROUP_MEMBERS_REQUEST, ListGroupMembersRequestPacket.class);
+        packetTypeMap.put(LIST_GROUP_MEMBERS_RESPONSE, ListGroupMembersResponsePacket.class);
         INSTANCE = new PacketCodeC();
         serializerMap = new HashMap<>();
         JSONSerializer jsonSerializer = new JSONSerializer();
@@ -55,7 +52,7 @@ public class PacketCodeC {
 
     public Packet decode(ByteBuf byteBuf) {
         int magicNumber = byteBuf.readInt();
-        if (magicNumber!= MAGIC_NUMBER) {
+        if (magicNumber != MAGIC_NUMBER) {
             System.out.println("magic number is not match. magic number = " + magicNumber);
             return null;
         }
@@ -77,6 +74,7 @@ public class PacketCodeC {
         if (requestType != null && serializer != null) {
             return serializer.deserialize(requestType, dst);
         }
+        // TODO 异常机制
         return null;
     }
 
