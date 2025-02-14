@@ -9,6 +9,10 @@ import org.example.util.SessionUtil;
 
 public class QuitGroupRequestHandler extends SimpleChannelInboundHandler<QuitGroupRequestPacket> {
 
+    public static QuitGroupRequestHandler INSTANCE = new QuitGroupRequestHandler();
+
+
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, QuitGroupRequestPacket msg) throws Exception {
         ChannelGroup channelGroup = SessionUtil.getChannelGroup(msg.getGroupId());

@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CreateGroupRequestHandler extends SimpleChannelInboundHandler<CreateGroupRequestPacket> {
+
+    public static CreateGroupRequestHandler INSTANCE = new CreateGroupRequestHandler();
+
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, CreateGroupRequestPacket createGroupRequestPacket) {
         List<String> userIdList = createGroupRequestPacket.getUserIdList();

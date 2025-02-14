@@ -11,6 +11,10 @@ import org.example.util.SessionUtil;
 import java.util.List;
 
 public class ListGroupMembersRequestHandler extends SimpleChannelInboundHandler<ListGroupMembersRequestPacket> {
+
+    public static ListGroupMembersRequestHandler INSTANCE = new ListGroupMembersRequestHandler();
+
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ListGroupMembersRequestPacket msg) {
         String groupId = msg.getGroupId();

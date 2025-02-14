@@ -9,6 +9,8 @@ import org.example.util.SessionUtil;
 
 public class JoinGroupRequestHandler extends SimpleChannelInboundHandler<JoinGroupRequestPacket> {
 
+    public static JoinGroupRequestHandler INSTANCE = new JoinGroupRequestHandler();
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, JoinGroupRequestPacket msg) {
         String groupId = msg.getGroupId();

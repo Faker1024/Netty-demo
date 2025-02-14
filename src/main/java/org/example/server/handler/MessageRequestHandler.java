@@ -10,6 +10,10 @@ import org.example.session.Session;
 import org.example.util.SessionUtil;
 
 public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRequestPacket> {
+
+    public static MessageRequestHandler INSTANCE = new MessageRequestHandler();
+
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageRequestPacket msg) throws Exception {
         // 获取会话信息

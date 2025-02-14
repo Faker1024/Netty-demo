@@ -7,6 +7,10 @@ import org.example.protocol.response.LogoutResponsePacket;
 import org.example.util.SessionUtil;
 
 public class LogoutRequestHandler extends SimpleChannelInboundHandler<LogoutRequestPacket> {
+
+    public static LogoutRequestHandler INSTANCE = new LogoutRequestHandler();
+
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LogoutRequestPacket msg) throws Exception {
         SessionUtil.unbBindSession(ctx.channel());

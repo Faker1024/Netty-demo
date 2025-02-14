@@ -10,6 +10,10 @@ import org.example.util.SessionUtil;
 import java.util.UUID;
 
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
+
+    public static LoginRequestHandler INSTANCE = new LoginRequestHandler();
+
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket msg) throws Exception {
         LoginResponsePacket response = null;

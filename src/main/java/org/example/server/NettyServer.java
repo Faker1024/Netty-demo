@@ -52,14 +52,14 @@ public class NettyServer {
                     protected void initChannel(NioSocketChannel ch) {
                         ch.pipeline().addLast(new Spliter())
                                 .addLast(new PacketDecoder())
-                                .addLast(new LoginRequestHandler())
-                                .addLast(new AuthHandler())
-                                .addLast(new MessageRequestHandler())
-                                .addLast(new CreateGroupRequestHandler())
-                                .addLast(new LogoutRequestHandler())
-                                .addLast(new JoinGroupRequestHandler())
-                                .addLast(new ListGroupMembersRequestHandler())
-                                .addLast(new QuitGroupRequestHandler())
+                                .addLast(LoginRequestHandler.INSTANCE)
+                                .addLast(AuthHandler.INSTANCE)
+                                .addLast(MessageRequestHandler.INSTANCE)
+                                .addLast(CreateGroupRequestHandler.INSTANCE)
+                                .addLast(LogoutRequestHandler.INSTANCE)
+                                .addLast(JoinGroupRequestHandler.INSTANCE)
+                                .addLast(ListGroupMembersRequestHandler.INSTANCE)
+                                .addLast(QuitGroupRequestHandler.INSTANCE)
                                 .addLast(new PacketEncoder());
                     }
                 });

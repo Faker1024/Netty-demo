@@ -6,6 +6,9 @@ import org.example.util.SessionUtil;
 
 public class AuthHandler extends ChannelInboundHandlerAdapter {
 
+    public static AuthHandler INSTANCE = new AuthHandler();
+
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (SessionUtil.hasLogin(ctx.channel())) {
