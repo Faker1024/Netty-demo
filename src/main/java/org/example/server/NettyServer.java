@@ -54,12 +54,7 @@ public class NettyServer {
                                 .addLast(new PacketDecoder())
                                 .addLast(LoginRequestHandler.INSTANCE)
                                 .addLast(AuthHandler.INSTANCE)
-                                .addLast(MessageRequestHandler.INSTANCE)
-                                .addLast(CreateGroupRequestHandler.INSTANCE)
-                                .addLast(LogoutRequestHandler.INSTANCE)
-                                .addLast(JoinGroupRequestHandler.INSTANCE)
-                                .addLast(ListGroupMembersRequestHandler.INSTANCE)
-                                .addLast(QuitGroupRequestHandler.INSTANCE)
+                                .addLast(IMServerHandler.INSTANCE)
                                 .addLast(new PacketEncoder());
                     }
                 });

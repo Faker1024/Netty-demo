@@ -1,5 +1,6 @@
 package org.example.server.handler;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.example.protocol.request.LoginRequestPacket;
@@ -9,6 +10,7 @@ import org.example.util.SessionUtil;
 
 import java.util.UUID;
 
+@ChannelHandler.Sharable
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
 
     public static LoginRequestHandler INSTANCE = new LoginRequestHandler();
