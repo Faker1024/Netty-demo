@@ -9,6 +9,11 @@ public class MessageResponseHandler extends SimpleChannelInboundHandler<MessageR
     protected void channelRead0(ChannelHandlerContext ctx, MessageResponsePacket messageResponsePacket) {
         String userId = messageResponsePacket.getFormUserId();
         String userName = messageResponsePacket.getFromUserName();
-        System.out.println(userId + ":" + userName + " -> " + messageResponsePacket.getMessage());
+        if (messageResponsePacket.getFromGroupId() != null) {
+            String fromGroupId = messageResponsePacket.getFromGroupId();
+            System.out.println(fromGroupId + "@" + userId + ":" + userName + " -> " + messageResponsePacket.getMessage());
+        } else {
+            System.out.println(userId + ":" + userName + " -> " + messageResponsePacket.getMessage());
+        }
     }
 }

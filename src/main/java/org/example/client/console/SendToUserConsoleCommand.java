@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class SendToUserConsoleCommand implements ConsoleCommand {
     @Override
     public void exec(Scanner scanner, Channel channel) {
-        System.out.print("发送消息给某个用户：");
+        System.out.print("输入用户Id以及消息内容，以空格隔开：");
         String toUserId = scanner.next();
         String message = scanner.next();
         channel.writeAndFlush(new MessageRequestPacket(toUserId, message));

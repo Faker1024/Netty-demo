@@ -14,6 +14,8 @@ import static org.example.protocol.command.Command.MESSAGE_RESPONSE;
 @EqualsAndHashCode(callSuper = true)
 public class MessageResponsePacket extends Packet {
 
+    private String fromGroupId;
+
     private String formUserId;
 
     private String fromUserName;

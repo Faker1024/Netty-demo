@@ -14,6 +14,7 @@ public class ConsoleManager implements ConsoleCommand{
     public ConsoleManager() {
         consoleCommands = new HashMap<>();
         consoleCommands.put("sendToUser", new SendToUserConsoleCommand());
+        consoleCommands.put("sendToGroup", new SendToGroupConsoleCommand());
         consoleCommands.put("logout", new LogoutConsoleCommand());
         consoleCommands.put("createGroup", new CreateGroupConsoleCommand());
         consoleCommands.put("joinGroup", new JoinGroupConsoleCommand());
